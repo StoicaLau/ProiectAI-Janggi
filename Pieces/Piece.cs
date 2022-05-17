@@ -15,6 +15,15 @@ namespace Janggi.Pieces
         protected Box box;
         protected PieceColor pieceColor;
         protected Image img;
+
+        //Value:
+        // Cannon 500
+        //Elephant 500
+        //Horse 300
+        //envoy 200
+        //pawn 100
+        //rook 700
+        protected int value;
         //pentru piese care trebuie sa se miste doar casa apere regele cand este in sah
 
         protected List<Tuple<int, int>> specialChange;
@@ -25,6 +34,10 @@ namespace Janggi.Pieces
             specialChange = new List<Tuple<int, int>>();
         }
         //Gettere si Settere
+        public int getValue()
+        {
+            return value;
+        }
         public void setBox(Box box)
         {
             this.box = box;

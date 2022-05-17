@@ -91,7 +91,7 @@ namespace Janggi
 
         }
 
-
+       
         public void movePiece(Piece piece)
         {
             Piece oldpiece = this.piece;
@@ -108,7 +108,7 @@ namespace Janggi
             }
 
             this.piece.setBox(this);
-            this.Enabled = true;
+            //this.Enabled = true;
             this.BackgroundImage = piece.getImage();
         }
         //se seteaza daca se poate da click pe casuta

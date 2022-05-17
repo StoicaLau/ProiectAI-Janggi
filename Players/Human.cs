@@ -15,5 +15,15 @@ namespace Janggi.Players
             this.pieceColor = pieceColor;
             this.direction = direction;
         }
+        public override void turn(bool enable)
+        {
+            king.enableMove(enable);
+            foreach (Piece piece in pieces)
+            {
+                piece.resetSpecialChange();
+                piece.enableMove(enable);
+
+            }
+        }
 }
 }

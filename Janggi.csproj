@@ -69,6 +69,7 @@
     <Compile Include="Pieces\Pawn.cs" />
     <Compile Include="Pieces\Piece.cs" />
     <Compile Include="Pieces\Rook.cs" />
+    <Compile Include="Players\Computer.cs" />
     <Compile Include="Players\Human.cs" />
     <Compile Include="Players\Player.cs" />
     <Compile Include="Program.cs" />

@@ -36,7 +36,7 @@ namespace Janggi
             player1 = new Human(PieceColor.BLUE, 1);
             player1.placeThePieces();
             window_form.players[0]=player1;
-            player1= new Human(PieceColor.RED, -1);
+            player1= new Computer(PieceColor.RED, -1);
             player1.placeThePieces();
             window_form.players[1] = player1;
             window_form.players[0].turn(true);

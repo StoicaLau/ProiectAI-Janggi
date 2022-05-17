@@ -12,6 +12,7 @@ namespace Janggi.Pieces
         //este pusa culoarea si imaginea piesei
         public Rook(PieceColor pieceColor)
         {
+            this.value = 700;
             this.pieceColor = pieceColor;
             if (pieceColor == PieceColor.BLUE)
             {

@@ -15,6 +15,7 @@ namespace Janggi.Pieces
         {
             this.pieceColor = pieceColor;
             this.direction = direction;
+            this.value = 100;
             if (pieceColor == PieceColor.BLUE)
             {
                 img = Properties.Resources.bpawn;

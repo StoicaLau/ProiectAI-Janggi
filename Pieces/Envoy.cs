@@ -14,7 +14,7 @@ namespace Janggi.Pieces
         //este pusa culoarea si imaginea piesei
         public Envoy(PieceColor pieceColor)
         {
-
+            this.value = 200;
             this.pieceColor = pieceColor;
 
             if (pieceColor == PieceColor.BLUE)

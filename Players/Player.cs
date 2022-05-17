@@ -44,15 +44,9 @@ namespace Janggi.Players
         }
      
         //se seteaza daca jucatorul poate face o mutare sau nu
-        public void turn(bool enable)
+        public  virtual void turn(bool enable)
         {
-            king.enableMove(enable);
-            foreach (Piece piece in pieces)
-            {
-                piece.resetSpecialChange();
-                piece.enableMove(enable);
-
-            }
+          
         }
         //asezare piese
         public void placeThePieces()
