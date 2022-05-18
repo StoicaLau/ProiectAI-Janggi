@@ -39,7 +39,7 @@ namespace Janggi
 
         }
         //Gettere si Settere
-      
+
         public int getLine()
         {
             return line;
@@ -75,7 +75,7 @@ namespace Janggi
         public void selected(Piece mobilePiece)
         {
             this.mobilePiece = mobilePiece;
-          
+
             this.BackColor = colors[2];
             this.Enabled = true;
 
@@ -92,7 +92,7 @@ namespace Janggi
 
         }
 
-       
+
         public void movePiece(Piece piece)
         {
             Piece oldpiece = this.piece;
@@ -137,7 +137,7 @@ namespace Janggi
         private void Box_Load(object sender, EventArgs e)
         {
             this.BackColor = colors[(line + column) % 2];
-            this.Location = new Point(5 + this.Width * column, 5 +810 - this.Height * line);
+            this.Location = new Point(5 + this.Width * column, 5 + 810 - this.Height * line);
         }
         private void Box_Click(object sender, EventArgs e)
         {
@@ -156,14 +156,18 @@ namespace Janggi
                     piece.showPossibleChanges();
                 }
 
-
-
             }
             else
             {
+                if (window_form.playerVsPlayer == true)
+                {
+                    dataToSend = mobilePiece.getLine() + " " + mobilePiece.getColumn() + " " + this.getLine() + " " + this.getColumn();
+                    window_form.streamWriter.WriteLine(dataToSend);
+                }
+
                 movePiece(mobilePiece);
                 //Anunt
-               // window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":" +"(" +mobilePiece.getLine()+","+ mobilePiece.getColumn() +")->("+ this.getLine() + "," + this.getColumn() + ")");
+                // window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":" +"(" +mobilePiece.getLine()+","+ mobilePiece.getColumn() +")->("+ this.getLine() + "," + this.getColumn() + ")");
 
                 hidePossibleChanges();
                 originalColor();
@@ -173,11 +177,11 @@ namespace Janggi
                 window_form.turnOfPlayer = (window_form.turnOfPlayer + 1) % 2;
                 window_form.players[window_form.turnOfPlayer].turn(true);
                 King kingPlayer = window_form.players[window_form.turnOfPlayer].getKing();
-               
+
                 if (kingPlayer.verifyCheck() == Condition.CHECK)
                 {
-                   
-                   // window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":CHECK");
+
+                    // window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":CHECK");
                     window_form.players[window_form.turnOfPlayer].turn(false);
                     kingPlayer.enableMove(false);
                     List<Piece> defensivePiece = kingPlayer.getListOfDefensivePieces(kingPlayer.getLine(), kingPlayer.getColumn());

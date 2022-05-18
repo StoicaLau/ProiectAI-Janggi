@@ -25,8 +25,9 @@ namespace Janggi
         public static int port;
         public static string ip;
         private static StreamReader streamReader;
-        private static StreamWriter streamWriter;
+        public static StreamWriter streamWriter;
         private static NetworkStream streamClient;
+        public static Boolean playerVsPlayer;
         public window_form()
         {
             InitializeComponent();
@@ -80,6 +81,7 @@ namespace Janggi
             window_form.players[1].placeThePieces();
             window_form.players[1].turn(false);
             window_form.players[0].turn(true);
+            playerVsPlayer = false;
         }
 
         private void btn_2Players_Click(object sender, EventArgs e)
@@ -96,6 +98,7 @@ namespace Janggi
             btn_Server.Visible = true;
             tb_IP.Visible = true;
             tb_Port.Visible = true;
+            playerVsPlayer = true;
         }
 
         private void btn_Server_Click(object sender, EventArgs e)
@@ -121,16 +124,20 @@ namespace Janggi
                 streamWriter.AutoFlush = true;
 
                 // Loop to receive all the data sent by the client.
-                while (true)
+                //while (true)
                 {
                     if (streamClient.DataAvailable)
                     {
                         string data = streamReader.ReadLine();
                         Debug.WriteLine(data);
-                        if (!data.Equals("Conexiune Reusita"))
+                        if (!data.Equals("Conexiune Reusita") && data != null)
                         {
                             // Translate data bytes to a ASCII string.
                             String[] stringFromData = data.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach(string poz in stringFromData)
+                            {
+                                Debug.Write(poz + " ");
+                            }
                             int[] positions = new int[4]; //position[0]-position[1]=poz initiala    position[2]-position[3]=poz finala
                             for (int i = 0; i < positions.Length; i++)
                             {
@@ -162,7 +169,7 @@ namespace Janggi
             StreamReader streamReader = new StreamReader(streamClient);
             StreamWriter streamWriter = new StreamWriter(streamClient);
             streamWriter.AutoFlush = true;
-            streamWriter.WriteLine("Conectare Reusita");
+            streamWriter.WriteLine("Test");
             while (true)
             {
                 if (streamClient.DataAvailable)
