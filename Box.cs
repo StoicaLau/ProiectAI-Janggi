@@ -179,7 +179,7 @@ namespace Janggi
                    // window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":CHECK");
                     window_form.players[window_form.turnOfPlayer].turn(false);
                     kingPlayer.enableMove(false);
-                    List<Piece> defensivePiece = kingPlayer.getListOfDefnsivePieces(kingPlayer.getLine(), kingPlayer.getColumn());
+                    List<Piece> defensivePiece = kingPlayer.getListOfDefensivePieces(kingPlayer.getLine(), kingPlayer.getColumn());
                     foreach (Piece piece in defensivePiece)
                     {
                         piece.enableMove(true);

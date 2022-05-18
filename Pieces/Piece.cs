@@ -156,7 +156,7 @@ namespace Janggi.Pieces
 
         }
         //se construieste lista cu posibile piese aliate care poate apara piesa aflata  la cordonatele date de parametrii line ,column
-        public virtual List<Piece> getListOfDefnsivePieces(int line, int column)
+        public virtual List<Piece> getListOfDefensivePieces(int line, int column)
         {
             List<Piece> playerPieces = new List<Piece>();
             List<Tuple<int, int>> changes = new List<Tuple<int, int>>();

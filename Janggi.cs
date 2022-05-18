@@ -1,4 +1,5 @@
-﻿using Janggi.Players;
+﻿using Janggi.Pieces;
+using Janggi.Players;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -58,6 +59,35 @@ namespace Janggi
         private void label9_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_1Player_Click(object sender, EventArgs e)
+        {
+            Player player1 = new Computer(PieceColor.RED, -1);
+            btn_1Player.Visible = false;
+            btn_2Players.Visible = false;
+            window_form.players[0].placeThePieces();
+            window_form.players[1] = player1;
+            window_form.players[1].placeThePieces();
+            window_form.players[1].turn(false);
+            window_form.players[0].turn(true);
+        }
+
+        private void btn_2Players_Click(object sender, EventArgs e)
+        {
+            Player player1 = new Human(PieceColor.RED, -1);
+            btn_1Player.Visible = false;
+            btn_2Players.Visible = false;
+            window_form.players[0].placeThePieces();
+            window_form.players[1] = player1;
+            window_form.players[1].placeThePieces();
+            window_form.players[1].turn(false);
+            window_form.players[0].turn(true);
+            btn_Client.Visible = true;
+            btn_Server.Visible = true;
+            btn_Connect.Visible = true;
+            tb_IP.Visible = true;
+            tb_Port.Visible = true;
         }
     }
 }

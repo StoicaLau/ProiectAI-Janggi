@@ -82,7 +82,7 @@ namespace Janggi.Pieces
                         if (window_form.board[line, column].getPiece() == enemyPiece)
                         {
 
-                            if (enemyPiece.getListOfDefnsivePieces(enemyPiece.getLine(), enemyPiece.getColumn()).Count == 0)
+                            if (enemyPiece.getListOfDefensivePieces(enemyPiece.getLine(), enemyPiece.getColumn()).Count == 0)
                             {
                                 possibleChange.Add(new Tuple<int, int>(line, column));
                             }
@@ -110,7 +110,7 @@ namespace Janggi.Pieces
             return true;
         }
         //se construieste lista cu posibile piese aliate care il pot ajuta pe rege sa scape de CHECK aflat  la cordonatele date de parametrii line ,column
-        public override List<Piece> getListOfDefnsivePieces(int line, int column)
+        public override List<Piece> getListOfDefensivePieces(int line, int column)
         {
             List<Piece> enemyPieces = getListOfOffensivePieces(line, column);
             List<Piece> playerPieces = new List<Piece>();
@@ -176,7 +176,7 @@ namespace Janggi.Pieces
             int column = this.getColumn();
             if (getListOfOffensivePieces(line, column).Count != 0)
             {
-                if (getListOfPossibleChanges().Count == 1 && this.getListOfDefnsivePieces(line, column).Count == 0)
+                if (getListOfPossibleChanges().Count == 1 && this.getListOfDefensivePieces(line, column).Count == 0)
                 {
                     return Condition.CHECKMATE;
                 }
