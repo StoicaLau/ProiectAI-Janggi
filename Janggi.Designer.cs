@@ -36,7 +36,6 @@
             this.btn_Server = new System.Windows.Forms.Button();
             this.btn_Client = new System.Windows.Forms.Button();
             this.tb_IP = new System.Windows.Forms.TextBox();
-            this.btn_Connect = new System.Windows.Forms.Button();
             this.tb_Port = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -90,9 +89,10 @@
             this.btn_Server.Name = "btn_Server";
             this.btn_Server.Size = new System.Drawing.Size(217, 51);
             this.btn_Server.TabIndex = 4;
-            this.btn_Server.Text = "Server";
+            this.btn_Server.Text = "Create Server";
             this.btn_Server.UseVisualStyleBackColor = true;
             this.btn_Server.Visible = false;
+            this.btn_Server.Click += new System.EventHandler(this.btn_Server_Click);
             // 
             // btn_Client
             // 
@@ -101,7 +101,7 @@
             this.btn_Client.Name = "btn_Client";
             this.btn_Client.Size = new System.Drawing.Size(217, 53);
             this.btn_Client.TabIndex = 5;
-            this.btn_Client.Text = "Client";
+            this.btn_Client.Text = "Connect";
             this.btn_Client.UseVisualStyleBackColor = true;
             this.btn_Client.Visible = false;
             // 
@@ -112,18 +112,8 @@
             this.tb_IP.Name = "tb_IP";
             this.tb_IP.Size = new System.Drawing.Size(217, 31);
             this.tb_IP.TabIndex = 6;
+            this.tb_IP.Text = "127.0.0.1";
             this.tb_IP.Visible = false;
-            // 
-            // btn_Connect
-            // 
-            this.btn_Connect.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Connect.Location = new System.Drawing.Point(1047, 896);
-            this.btn_Connect.Name = "btn_Connect";
-            this.btn_Connect.Size = new System.Drawing.Size(113, 34);
-            this.btn_Connect.TabIndex = 7;
-            this.btn_Connect.Text = "Connect";
-            this.btn_Connect.UseVisualStyleBackColor = true;
-            this.btn_Connect.Visible = false;
             // 
             // tb_Port
             // 
@@ -132,6 +122,7 @@
             this.tb_Port.Name = "tb_Port";
             this.tb_Port.Size = new System.Drawing.Size(217, 31);
             this.tb_Port.TabIndex = 8;
+            this.tb_Port.Text = "8000";
             this.tb_Port.Visible = false;
             // 
             // window_form
@@ -140,7 +131,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 1011);
             this.Controls.Add(this.tb_Port);
-            this.Controls.Add(this.btn_Connect);
             this.Controls.Add(this.tb_IP);
             this.Controls.Add(this.btn_Client);
             this.Controls.Add(this.btn_Server);
@@ -166,7 +156,6 @@
         private System.Windows.Forms.Button btn_Server;
         private System.Windows.Forms.Button btn_Client;
         private System.Windows.Forms.TextBox tb_IP;
-        private System.Windows.Forms.Button btn_Connect;
         private System.Windows.Forms.TextBox tb_Port;
     }
 }
