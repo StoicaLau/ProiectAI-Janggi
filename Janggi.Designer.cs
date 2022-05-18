@@ -104,6 +104,7 @@
             this.btn_Client.Text = "Connect";
             this.btn_Client.UseVisualStyleBackColor = true;
             this.btn_Client.Visible = false;
+            this.btn_Client.Click += new System.EventHandler(this.btn_Client_Click);
             // 
             // tb_IP
             // 

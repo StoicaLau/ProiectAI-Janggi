@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using System.Diagnostics;
 
 namespace Janggi
 {
@@ -108,41 +109,81 @@ namespace Janggi
             {
                 Console.Write("Waiting for a connection... ");
 
-                // Perform a blocking call to accept requests.
-                // You could also use server.AcceptSocket() here.
+                // server.Server.ReceiveTimeout = 5000;
                 TcpClient client = server.AcceptTcpClient();
                 Console.WriteLine("Connected!");
 
                 Byte[] bytes = new Byte[256];
 
-                // Get a stream object for reading and writing
                 streamClient = client.GetStream();
                 streamReader = new StreamReader(streamClient);
                 streamWriter = new StreamWriter(streamClient);
                 streamWriter.AutoFlush = true;
 
-                string data = streamReader.ReadLine();
-
                 // Loop to receive all the data sent by the client.
-                while (data != null)
+                while (true)
                 {
                     if (streamClient.DataAvailable)
                     {
-                        // Translate data bytes to a ASCII string.
-                        String[] stringFromData = data.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        int[] positions = new int[4]; //position[0]-position[1]=poz initiala    position[2]-position[3]=poz finala
-                        for (int i = 0; i < positions.Length; i++)
+                        string data = streamReader.ReadLine();
+                        Debug.WriteLine(data);
+                        if (!data.Equals("Conexiune Reusita"))
                         {
-                            positions[i] = Convert.ToInt32(stringFromData[i]);
+                            // Translate data bytes to a ASCII string.
+                            String[] stringFromData = data.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            int[] positions = new int[4]; //position[0]-position[1]=poz initiala    position[2]-position[3]=poz finala
+                            for (int i = 0; i < positions.Length; i++)
+                            {
+                                positions[i] = Convert.ToInt32(stringFromData[i]);
+                            }
+                            Piece temp = window_form.board[positions[0], positions[1]].getPiece();
+                            window_form.board[positions[2], positions[3]].movePiece(temp);
                         }
-                        Piece temp = window_form.board[positions[0], positions[1]].getPiece();
-                        window_form.board[positions[2], positions[3]].movePiece(temp);
                     }
                 }
-
-                // Shutdown and end connection
+                server.Stop();
+                streamReader.Close();
+                streamWriter.Close();
                 client.Close();
             }
+        }
+
+        private void btn_Client_Click(object sender, EventArgs e)
+        {
+            // Create a TcpClient.
+            // Note, for this client to work you need to have a TcpServer
+            // connected to the same address as specified by the server, port
+            // combination.
+            port = Convert.ToInt32(tb_Port.Text);
+            IPAddress localAddr = IPAddress.Parse(tb_IP.Text);
+            TcpClient client = new TcpClient();
+            client.Connect(localAddr, port);
+            NetworkStream streamClient = client.GetStream();
+            StreamReader streamReader = new StreamReader(streamClient);
+            StreamWriter streamWriter = new StreamWriter(streamClient);
+            streamWriter.AutoFlush = true;
+            streamWriter.WriteLine("Conectare Reusita");
+            while (true)
+            {
+                if (streamClient.DataAvailable)
+                {
+                    string data = streamReader.ReadLine();
+                    // Translate data bytes to a ASCII string.
+                    String[] stringFromData = data.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    int[] positions = new int[4]; //position[0]-position[1]=poz initiala    position[2]-position[3]=poz finala
+                    for (int i = 0; i < positions.Length; i++)
+                    {
+                        positions[i] = Convert.ToInt32(stringFromData[i]);
+                    }
+                    Piece temp = window_form.board[positions[0], positions[1]].getPiece();
+                    window_form.board[positions[2], positions[3]].movePiece(temp);
+                }
+            }
+
+            // Close everything.
+            streamReader.Close();
+            streamWriter.Close();
+            client.Close();
         }
     }
 }

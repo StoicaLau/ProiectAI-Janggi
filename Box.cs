@@ -20,6 +20,7 @@ namespace Janggi
         private Piece piece;
         private Piece mobilePiece;
         private Panel panel;
+        private String dataToSend;
 
         //Constructor
         public Box(int line, int column)
