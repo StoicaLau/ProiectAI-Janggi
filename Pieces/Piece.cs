@@ -17,12 +17,12 @@ namespace Janggi.Pieces
         protected Image img;
 
         //Value:
-        // Cannon 500
-        //Elephant 500
-        //Horse 300
-        //envoy 200
-        //pawn 100
-        //rook 700
+        // Cannon 7
+        //Elephant 3
+        //Horse 5
+        //guard 3
+        //pawn 2
+        //rook 13
         protected int value;
         //pentru piese care trebuie sa se miste doar casa apere regele cand este in sah
 
@@ -154,6 +154,10 @@ namespace Janggi.Pieces
             }
             return enemyPieces;
 
+        }
+        public virtual int getDirection()
+        {
+            return 0;
         }
         //se construieste lista cu posibile piese aliate care poate apara piesa aflata  la cordonatele date de parametrii line ,column
         public virtual List<Piece> getListOfDefensivePieces(int line, int column)

@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Janggi.Pieces
 {
-    internal class Envoy : Piece
+    internal class Guard : Piece
     {
         private Tuple<int, int> lineLimit;
         private Tuple<int, int> columnLimit;
         //Constructor
         //este pusa culoarea si imaginea piesei
-        public Envoy(PieceColor pieceColor)
+        public Guard(PieceColor pieceColor)
         {
-            this.value = 200;
+            this.value = 3;
             this.pieceColor = pieceColor;
 
             if (pieceColor == PieceColor.BLUE)

@@ -15,7 +15,7 @@ namespace Janggi.Pieces
         {
             this.pieceColor = pieceColor;
             this.direction = direction;
-            this.value = 100;
+            this.value = 2;
             if (pieceColor == PieceColor.BLUE)
             {
                 img = Properties.Resources.bpawn;
@@ -25,6 +25,10 @@ namespace Janggi.Pieces
                 img = Properties.Resources.rpawn;
             }
 
+        }
+        public override int getDirection()
+        {
+            return direction;
         }
         //Mutari Posibile
         // lista de mutari posbilie se construieste cu ajutorul unei metode mostenite de la clasa Piece ,metoda:addPossibleChange(int line,int column, List<Tuple<int, int>>  possibleChanges);

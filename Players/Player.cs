@@ -102,12 +102,12 @@ namespace Janggi.Players
                 king.setLimit(king.getBox());
                 //pieces.Add(king);
                 //envoy
-                piece = new Envoy(pieceColor);
+                piece = new Guard(pieceColor);
                 window_form.board[0, 3].movePiece(piece);
                 piece.setLimit(king.getBox());
                 pieces.Add(piece);
 
-                piece = new Envoy(pieceColor);
+                piece = new Guard(pieceColor);
                 window_form.board[0, 5].movePiece(piece);
                 piece.setLimit(king.getBox());
                 pieces.Add(piece);
@@ -159,12 +159,12 @@ namespace Janggi.Players
                 king.setLimit(king.getBox());
                 // pieces.Add(king);
                 //envoy
-                piece = new Envoy(pieceColor);
+                piece = new Guard(pieceColor);
                 window_form.board[9, 3].movePiece(piece);
                 piece.setLimit(king.getBox());
                 pieces.Add(piece);
 
-                piece = new Envoy(pieceColor);
+                piece = new Guard(pieceColor);
                 window_form.board[9, 5].movePiece(piece);
                 piece.setLimit(king.getBox());
                 pieces.Add(piece);

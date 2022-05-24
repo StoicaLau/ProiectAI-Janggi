@@ -62,7 +62,7 @@
     <Compile Include="Pieces\Cannon.cs" />
     <Compile Include="Pieces\Contition.cs" />
     <Compile Include="Pieces\Elephant.cs" />
-    <Compile Include="Pieces\Envoy.cs" />
+    <Compile Include="Pieces\Guard.cs" />
     <Compile Include="Pieces\Horse.cs" />
     <Compile Include="Pieces\King.cs" />
     <Compile Include="Pieces\PieceColor.cs" />

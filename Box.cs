@@ -38,6 +38,39 @@ namespace Janggi
         {
 
         }
+        public Box(Box box)
+        {
+            // InitializeComponent();
+            //this.Visible = false;
+            if (box != null)
+            {
+                colors = new Color[] { Color.AntiqueWhite, Color.DarkGreen, Color.LimeGreen };
+                this.line = box.getLine();
+                this.column = box.getColumn();
+                Piece pieceaux = null;
+                Piece pieceBox = box.getPiece();
+
+                switch (pieceBox)
+                {
+                    case Cannon cannon: pieceaux = new Cannon(pieceBox.getPieceColor()); break;
+                    case Elephant elephant: pieceaux = new Elephant(pieceBox.getPieceColor()); break;
+                    case Guard guard: pieceaux = new Guard(pieceBox.getPieceColor()); break;
+                    case Horse horse: pieceaux = new Horse(pieceBox.getPieceColor()); break;
+                    case King King: pieceaux = new King(pieceBox.getPieceColor()); break;
+                    case Rook rook: pieceaux = new Rook(pieceBox.getPieceColor()); break;
+                    case Pawn pawn: pieceaux = new Pawn(pieceBox.getPieceColor(), pieceBox.getDirection()); break;
+                    case null: pieceaux = null; break;
+
+                }
+
+                if (pieceaux != null)
+                {
+                    this.movePiece(pieceaux);
+                }
+                //piece =box.getPiece();
+                mobilePiece = null;
+            }
+        }
         //Gettere si Settere
 
         public int getLine()
@@ -107,7 +140,6 @@ namespace Janggi
             {
                 this.piece.getBox().clear();
             }
-
             this.piece.setBox(this);
             //this.Enabled = true;
             this.BackgroundImage = piece.getImage();

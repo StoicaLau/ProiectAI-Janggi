@@ -30,7 +30,7 @@
         {
             this.board_panel = new System.Windows.Forms.Panel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.notification = new System.Windows.Forms.ListBox();
+            notification = new System.Windows.Forms.ListBox();
             this.btn_1Player = new System.Windows.Forms.Button();
             this.btn_2Players = new System.Windows.Forms.Button();
             this.btn_Server = new System.Windows.Forms.Button();
@@ -52,12 +52,12 @@
             // 
             // notification
             // 
-            this.notification.FormattingEnabled = true;
-            this.notification.Location = new System.Drawing.Point(943, 12);
-            this.notification.Name = "notification";
-            this.notification.Size = new System.Drawing.Size(217, 238);
-            this.notification.TabIndex = 1;
-            this.notification.SelectedIndexChanged += new System.EventHandler(this.arata_SelectedIndexChanged);
+            notification.FormattingEnabled = true;
+           notification.Location = new System.Drawing.Point(943, 12);
+            notification.Name = "notification";
+           notification.Size = new System.Drawing.Size(217, 238);
+            notification.TabIndex = 1;
+            notification.SelectedIndexChanged += new System.EventHandler(this.arata_SelectedIndexChanged);
             // 
             // btn_1Player
             // 
@@ -137,7 +137,7 @@
             this.Controls.Add(this.btn_Server);
             this.Controls.Add(this.btn_2Players);
             this.Controls.Add(this.btn_1Player);
-            this.Controls.Add(this.notification);
+            this.Controls.Add(notification);
             this.Controls.Add(this.board_panel);
             this.Name = "window_form";
             this.Text = "Janggi";
@@ -151,7 +151,7 @@
 
         private System.Windows.Forms.Panel board_panel;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        public System.Windows.Forms.ListBox notification;
+        public static System.Windows.Forms.ListBox notification;
         private System.Windows.Forms.Button btn_1Player;
         private System.Windows.Forms.Button btn_2Players;
         private System.Windows.Forms.Button btn_Server;

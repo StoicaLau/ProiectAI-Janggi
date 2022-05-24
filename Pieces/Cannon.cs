@@ -12,7 +12,7 @@ namespace Janggi.Pieces
         //este pusa culoarea si imaginea piesei
         public Cannon(PieceColor pieceColor)
         {
-            this.value = 500;
+            this.value = 7;
             this.pieceColor = pieceColor;
 
             if (pieceColor == PieceColor.BLUE)
