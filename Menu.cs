@@ -42,6 +42,7 @@ namespace Janggi
             window_form.players[1].placeThePieces();
             window_form.players[1].turn(false);
             window_form.players[0].turn(true);
+
             Close();
         }
 
