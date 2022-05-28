@@ -17,6 +17,7 @@ namespace Janggi.Pieces
         protected Image img;
 
         //Value:
+        //king 1000
         // Cannon 7
         //Elephant 3
         //Horse 5
@@ -65,12 +66,13 @@ namespace Janggi.Pieces
         public void addSpecialChange(Tuple<int, int> position)
         {
             specialChange.Add(position);
-        } 
+        }
         public void resetSpecialChange()
         {
             specialChange = new List<Tuple<int, int>>();
         }
 
+        
         //se seteaza daca se poate da click pe piesa sau nu
         //intai se verifica daca prin muatrea aceelei piese se poate prima sah,in caz afirmativ se va seta astfel inacat nu se va da click pe piesa ,caz contrar se seteaza in functie  de parametrul enable
 
@@ -196,7 +198,7 @@ namespace Janggi.Pieces
             return playerPieces;
 
         }
-         
+
         //se verifca daca este posibila mutarea
         public void addPossibleChange(int line, int column, List<Tuple<int, int>> list)
         {
@@ -225,7 +227,20 @@ namespace Janggi.Pieces
             }
             foreach (Tuple<int, int> position in possibleChanges)
             {
-                window_form.board[position.Item1, position.Item2].selected(this);
+                if (window_form.board[position.Item1, position.Item2].getPiece()!= null)
+                {
+
+                    if (window_form.board[position.Item1, position.Item2].getPiece().GetType() != typeof(King) || this.GetType()== typeof(King))
+                    {
+                        window_form.board[position.Item1, position.Item2].selected(this);
+                    }
+                }
+                else
+                {
+                   
+                        window_form.board[position.Item1, position.Item2].selected(this);
+                   
+                }
             }
         }
 

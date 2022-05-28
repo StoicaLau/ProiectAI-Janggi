@@ -16,7 +16,7 @@ namespace Janggi.Pieces
         //este pusa culoarea si imaginea piesei
         public King(PieceColor pieceColor)
         {
-
+            this.value = 1000;
             this.pieceColor = pieceColor;
 
             if (pieceColor == PieceColor.BLUE)
@@ -29,6 +29,7 @@ namespace Janggi.Pieces
             }
 
         }
+       
         //se seteaza daca se poate da click pe piesa sau nu
         public override void enableMove(bool enable)
         {
@@ -41,6 +42,7 @@ namespace Janggi.Pieces
             columnLimit = Tuple.Create(box.getColumn() - 1, box.getColumn() + 1);
         }
         //se verifica daca paramterul line se afla in limita impusa pe randuri
+
         private bool verifyLineLimt(int line)
         {
             if (line >= lineLimit.Item1 && line <= lineLimit.Item2)
@@ -208,21 +210,24 @@ namespace Janggi.Pieces
             line = box.getLine();
             column = box.getColumn() - 1;
             addKingChange(line, column, possibleChanges);
-            if ((window_form.board[(lineLimit.Item1 + lineLimit.Item2) / 2, (columnLimit.Item1 + columnLimit.Item2) / 2].getPiece() == null || window_form.board[(lineLimit.Item1 + lineLimit.Item2) / 2, (columnLimit.Item1 + columnLimit.Item2) / 2].getPiece() == this || window_form.board[(lineLimit.Item1 + lineLimit.Item2) / 2, (columnLimit.Item1 + columnLimit.Item2) / 2].getPiece().getPieceColor() != this.pieceColor))//&& verifyPossibleChnage((lineLimit.Item1 + lineLimit.Item2) / 2, (columnLimit.Item1 + columnLimit.Item2) / 2) ==true)
-            {
-                line = box.getLine() + 1;
-                column = box.getColumn() + 1;
-                addKingChange(line, column, possibleChanges);
-                line = box.getLine() - 1;
-                column = box.getColumn() + 1;
-                addKingChange(line, column, possibleChanges);
-                line = box.getLine() + 1;
-                column = box.getColumn() - 1;
-                addKingChange(line, column, possibleChanges);
-                line = box.getLine() - 1;
-                column = box.getColumn() - 1;
-                addKingChange(line, column, possibleChanges);
+            if (window_form.board[(lineLimit.Item1 + lineLimit.Item2) / 2, (columnLimit.Item1 + columnLimit.Item2) / 2].getPiece() != null)
+             {
+                if (window_form.board[(lineLimit.Item1 + lineLimit.Item2) / 2, (columnLimit.Item1 + columnLimit.Item2) / 2].getPiece() == this || window_form.board[(lineLimit.Item1 + lineLimit.Item2) / 2, (columnLimit.Item1 + columnLimit.Item2) / 2].getPiece().getPieceColor() != this.pieceColor)//&& verifyPossibleChnage((lineLimit.Item1 + lineLimit.Item2) / 2, (columnLimit.Item1 + columnLimit.Item2) / 2) ==true)
+                {
+                    line = box.getLine() + 1;
+                    column = box.getColumn() + 1;
+                    addKingChange(line, column, possibleChanges);
+                    line = box.getLine() - 1;
+                    column = box.getColumn() + 1;
+                    addKingChange(line, column, possibleChanges);
+                    line = box.getLine() + 1;
+                    column = box.getColumn() - 1;
+                    addKingChange(line, column, possibleChanges);
+                    line = box.getLine() - 1;
+                    column = box.getColumn() - 1;
+                    addKingChange(line, column, possibleChanges);
 
+                }
             }
 
             return possibleChanges;

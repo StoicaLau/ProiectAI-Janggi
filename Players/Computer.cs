@@ -1,6 +1,7 @@
 ﻿using Janggi.Pieces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Janggi.Players
     public class Computer : Player
     {//
         private Player enemy;
-        private static int DEPTH = 1;
+        private static int DEPTH = 2;
         private int numTurns;
         public Computer(PieceColor pieceColor, int direction)
         {
@@ -24,19 +25,7 @@ namespace Janggi.Players
         {
             if (enable == true)
             {
-                //Random random = new Random();
-                //Piece piece = this.pieces[random.Next(0, Convert.ToInt32(pieces.Count))];
-                //while (piece.getListOfPossibleChanges().Count == 1 || piece.getListOfPossibleChanges().Count == 0)
-                //{
-                //    piece = this.pieces[random.Next(0, Convert.ToInt32(pieces.Count))];
-                //}
-
-                //Tuple<int, int> move = piece.getListOfPossibleChanges()[random.Next(0, Convert.ToInt32(piece.getListOfPossibleChanges().Count))];
-                //while (move.Item1 == piece.getLine() && move.Item2 == piece.getColumn())
-                //{
-                //    move = piece.getListOfPossibleChanges()[random.Next(0, Convert.ToInt32(piece.getListOfPossibleChanges().Count))];
-                //}
-                //window_form.board[move.Item1, move.Item2].movePiece(piece);
+               
                 makeMove();
 
                 window_form.players[window_form.turnOfPlayer].turn(false);
@@ -60,9 +49,30 @@ namespace Janggi.Players
         {
             int bestMoveScore; //score of that best move
             Tuple<Tuple<int, int>, Tuple<int, int>> bestMove;
-
+            Tuple<Tuple<int, int>, Tuple<int, int>> bestMoveInit;
             List<Box[,]> possibleBoards = new List<Box[,]>(); //keeps track of the possible boards (boards with the possible moves made on them)
             List<Tuple<Tuple<int, int>, Tuple<int, int>>> moves = new List<Tuple<Tuple<int, int>, Tuple<int, int>>>();
+            List<List<Piece>> redPiecesList=new List<List<Piece>>();
+            List<List<Piece>> bluePiecesList = new List<List<Piece>>();
+            //la el
+            List<Piece> redPiece = new List<Piece>();
+            List<Piece> bluePiece = new List<Piece>();
+            foreach (Tuple<int, int> change1 in king.getListOfPossibleChanges())
+            {
+                Tuple<int, int> change2 = new Tuple<int, int>(king.getLine(), king.getColumn());
+                if (window_form.board[change1.Item1, change1.Item2].getPiece() != king)
+                {
+                   redPiece = new List<Piece>();
+                   bluePiece = new List<Piece>();
+                    moves.Add(new Tuple<Tuple<int, int>, Tuple<int, int>>(change1, change2));
+                    Box[,] successorBoard = newBoard(window_form.board,redPiece,bluePiece);
+                    //window_form.notification.Items.Add("makeMove nu e buba la new");
+                    successorBoard[change1.Item1, change1.Item2].movePiece(successorBoard[change2.Item1, change2.Item2].getPiece(),bluePiece,redPiece);//e bine asa
+                    possibleBoards.Add(successorBoard);
+                    redPiecesList.Add(redPiece);
+                    bluePiecesList.Add(bluePiece);
+                }
+            }
             foreach (Piece piece in getPieces())
             {
                 if (piece.getListOfPossibleChanges().Count > 1)
@@ -72,48 +82,68 @@ namespace Janggi.Players
                     {
                         if (window_form.board[change1.Item1, change1.Item2].getPiece() != piece)
                         {
+                             redPiece = new List<Piece>();
+                             bluePiece = new List<Piece>();
                             moves.Add(new Tuple<Tuple<int, int>, Tuple<int, int>>(change1, change2));
-                            Box[,] successorBoard = newBoard(window_form.board);
+                            Box[,] successorBoard = newBoard(window_form.board,redPiece,bluePiece);
                             //window_form.notification.Items.Add("makeMove nu e buba la new");
-                            successorBoard[change1.Item1, change1.Item2].movePiece(successorBoard[change2.Item1, change2.Item2].getPiece());
+                            successorBoard[change1.Item1, change1.Item2].movePiece(successorBoard[change2.Item1, change2.Item2].getPiece(), bluePiece, redPiece);//e bine
                             possibleBoards.Add(successorBoard);
+                            redPiecesList.Add(redPiece);
+                            bluePiecesList.Add(bluePiece);
                         }
 
                     }
                 }
             }
+
             bestMove = moves[0];
-            bestMoveScore = evaluatePosition(possibleBoards[0], Int32.MinValue, Int32.MaxValue, DEPTH, PieceColor.BLUE);
+            bestMoveInit = moves[0];
+            redPiece = redPiecesList[0];
+            bluePiece = bluePiecesList[0];
+
+            bestMoveScore = evaluatePosition(possibleBoards[0], Int32.MinValue, Int32.MaxValue, DEPTH, PieceColor.BLUE,redPiece,bluePiece);
             if (numTurns > 0)
             {
                 for (int i = 1; i < possibleBoards.Count; i++)
                 {
-                    int j = evaluatePosition(possibleBoards[i], Int32.MinValue, Int32.MaxValue, DEPTH, PieceColor.BLUE);
+                    redPiece = redPiecesList[i];
+                    bluePiece = bluePiecesList[i];
+                    int j = evaluatePosition(possibleBoards[i], Int32.MinValue, Int32.MaxValue, DEPTH, PieceColor.BLUE,redPiece,bluePiece);
                     if (j >= bestMoveScore)
                     {
                         bestMove = moves[i];
                         bestMoveScore = j;
                     }
                 }
+                //if (bestMove == bestMoveInit)
+                //{
+                //    numTurns = 0;
+                //}
+
+
             }
-            else
+            if(numTurns == 0)
             {
                 Random generator = new Random();
                 int index = generator.Next(moves.Count);
                 bestMove = moves[index];
             }
+            numTurns++;
             window_form.board[bestMove.Item1.Item1, bestMove.Item1.Item2].movePiece(window_form.board[bestMove.Item2.Item1, bestMove.Item2.Item2].getPiece());
         }
-        public int evaluatePosition(Box[,] board, int alpha, int beta, int depth, PieceColor color)
+        public int evaluatePosition(Box[,] board, int alpha, int beta, int depth, PieceColor color, List<Piece> redPieces,List <Piece> bluePieces )
         {
             if (depth == 0)
             {
-                return evaluate(board);
+                return evaluate(redPieces,bluePieces);
             }
-            List<Tuple<Tuple<int, int>, Tuple<int, int>>> moves = new List<Tuple<Tuple<int, int>, Tuple<int, int>>>();
+                  
             if (color == PieceColor.BLUE)
             {
-                foreach (Piece piece in enemy.getPieces())
+                List<Tuple<Tuple<int, int>, Tuple<int, int>>> moves = new List<Tuple<Tuple<int, int>, Tuple<int, int>>>();
+
+                foreach (Piece piece in bluePieces)
                 {
                     if (piece.getListOfPossibleChanges().Count > 1)
                     {
@@ -135,14 +165,17 @@ namespace Janggi.Players
                 foreach (Tuple<Tuple<int, int>, Tuple<int, int>> move in moves)
                 {
 
-                    if (move.Item1.Item1 != move.Item2.Item1 && move.Item1.Item2 != move.Item2.Item1)
+                    if (move.Item1.Item1 != move.Item2.Item1 && move.Item1.Item2 != move.Item2.Item2)
                     {
-                        Box[,] successorBoard = newBoard(board);
-                        successorBoard[move.Item1.Item1, move.Item1.Item2].movePiece(successorBoard[move.Item2.Item1, move.Item2.Item2].getPiece());
-                        newBeta = Math.Min(newBeta, evaluatePosition(successorBoard, alpha, beta, depth - 1, PieceColor.RED));
-                        if (newBeta <= alpha)
-                            break;
+                        List<Piece> redPiece = new List<Piece>();
+                        List<Piece> bluePiece = new List<Piece>();
+                        Box[,] successorBoard = newBoard(board,redPiece,bluePiece);
+                        successorBoard[move.Item1.Item1, move.Item1.Item2].movePiece(successorBoard[move.Item2.Item1, move.Item2.Item2].getPiece(),bluePiece,redPiece);
+                        newBeta = Math.Min(newBeta, evaluatePosition(successorBoard, alpha, beta, depth - 1, PieceColor.RED,redPiece,bluePiece));
+
                     }
+                    if (newBeta <= alpha)
+                        break;
 
                 }
                 return newBeta;
@@ -150,7 +183,9 @@ namespace Janggi.Players
             }
             else
             {
-                foreach (Piece piece in getPieces())
+
+                List<Tuple<Tuple<int, int>, Tuple<int, int>>> moves = new List<Tuple<Tuple<int, int>, Tuple<int, int>>>();
+                foreach (Piece piece in redPieces)
                 {
                     if (piece.getListOfPossibleChanges().Count > 1)
                     {
@@ -171,57 +206,128 @@ namespace Janggi.Players
 
                 foreach (Tuple<Tuple<int, int>, Tuple<int, int>> move in moves)
                 {
-                    if (move.Item1.Item1 != move.Item2.Item1 && move.Item1.Item2 != move.Item2.Item1)
+                    if (move.Item1.Item1 != move.Item2.Item1 && move.Item1.Item2 != move.Item2.Item2)
                     {
-                        Box[,] successorBoard = newBoard(board);
-                        successorBoard[move.Item1.Item1, move.Item1.Item2].movePiece(successorBoard[move.Item2.Item1, move.Item2.Item2].getPiece());
-                        newAlpha = Math.Max(newAlpha, evaluatePosition(successorBoard, alpha, beta, depth - 1, PieceColor.RED));
-                        if (beta <= newAlpha)
-                            break;
-                    }
+                        List<Piece> redPiece = new List<Piece>();
+                        List<Piece> bluePiece = new List<Piece>();
+                        Box[,] successorBoard = newBoard(board,redPiece,bluePiece);
+                        successorBoard[move.Item1.Item1, move.Item1.Item2].movePiece(successorBoard[move.Item2.Item1, move.Item2.Item2].getPiece(),bluePiece,redPiece);
+                        newAlpha = Math.Max(newAlpha, evaluatePosition(successorBoard, alpha, beta, depth - 1, PieceColor.BLUE,redPiece,bluePiece));
 
+                    }
+                    if (beta <= newAlpha)
+                        break;
                 }
                 return newAlpha;
             }
             return 0;
         }
-        private Box[,] newBoard(Box[,] board)
+        private Box[,] newBoard(Box[,] board, List<Piece> redPiece, List<Piece> bluePiece)
         {
             Box[,] boardAux = new Box[10, 9];
+            Piece kingRed=new Piece();
+            Piece guard1Red=null;
+            Piece guard2Red=null;
+            Piece kingBlue= new Piece();
+            Piece guard1Blue=null;
+            Piece guard2Blue=null;
+
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
                     boardAux[i, j] = new Box(board[i, j]);
-                    //boardAux[i,j].Visible = false;
-                }
-            }
-            return boardAux;
-        }
-        private int evaluate(Box[,] board)
-        {
-            int redScore = 0;
-            int blueScore = 0;
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    Piece piece = board[i, j].getPiece();
-                    if (piece != null )
+                    if (boardAux[i, j].getPiece() != null)
                     {
-                        if (piece.GetType() != typeof(King))
+                        if (boardAux[i, j].getPiece().getPieceColor() == PieceColor.RED)
                         {
-                            if (piece.getPieceColor() == PieceColor.RED)
+                            redPiece.Add(boardAux[i, j].getPiece());
+                            if (boardAux[i, j].getPiece().GetType() == typeof(King))
                             {
-                                redScore = redScore + piece.getValue();
+                                kingRed = boardAux[i, j].getPiece();
                             }
                             else
                             {
-                                blueScore = blueScore + piece.getValue();
+                                if (boardAux[i, j].getPiece().GetType() == typeof(Guard))
+                                {
+                                    if (guard1Red == null)
+                                    {
+                                        guard1Red = boardAux[i, j].getPiece();
+                                    }
+                                    else
+                                    {
+                                        guard2Red = boardAux[i, j].getPiece();
+                                    }
+                                }
                             }
                         }
+                        else
+                        {
+                            bluePiece.Add(boardAux[i, j].getPiece());
+                            if (boardAux[i, j].getPiece().GetType() == typeof(King))
+                            {
+                                kingBlue = boardAux[i, j].getPiece();
+                            }
+                            else
+                            {
+                                if (boardAux[i, j].getPiece().GetType() == typeof(Guard))
+                                {
+                                    if (guard1Blue == null)
+                                    {
+                                        guard1Blue = boardAux[i, j].getPiece();
+                                    }
+                                    else
+                                    {
+                                        guard2Blue = boardAux[i, j].getPiece();
+                                    }
+                                }
+                            }
+
+                        }
                     }
+
+                    //boardAux[i,j].Visible = false;
                 }
+               
+            }
+            if (kingBlue != null)
+            {
+                kingRed.setLimit(boardAux[1, 4]);
+            }
+            if (guard1Red != null)
+            {
+                guard1Red.setLimit(boardAux[1, 4]);
+            }
+            if (guard2Red != null)
+            {
+                guard2Red.setLimit(boardAux[1, 4]);
+            }
+            if (kingBlue != null)
+            {
+                kingBlue.setLimit(boardAux[8, 4]);
+            }
+            if (guard1Blue != null)
+            {
+                guard1Blue.setLimit(boardAux[8, 4]);
+            }
+            if (guard2Blue != null)
+            {
+                guard2Blue.setLimit(boardAux[8, 4]);
+            }
+
+            return boardAux;
+        }
+        private int evaluate(List<Piece> redPiece, List<Piece> bluePiece)
+        {
+            int redScore = 0;
+            int blueScore = 0;
+            foreach (Piece piece in redPiece)
+            {
+                redScore = redScore + piece.getValue();
+            }
+            foreach (Piece piece in bluePiece)
+            {
+                blueScore = blueScore + piece.getValue();
             }
 
             return redScore - blueScore;//calculator maxim pentru red,minim pentru red

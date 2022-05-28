@@ -32,17 +32,23 @@ namespace Janggi
         {
             InitializeComponent();
 
-
-
-        }
-
-        private void Janggi_Load(object sender, EventArgs e)
-        {
             players = new Player[2];
-            turnOfPlayer = 0;
             Board board = new Board(board_panel);
 
-
+            Menu menu = new Menu();
+            this.Hide();
+            menu.ShowDialog();
+            menu = null;
+            if (players[0] == null)
+            {
+                Close();
+            }
+            this.Show();   
+        }
+      
+        private void Janggi_Load(object sender, EventArgs e)
+        {
+            turnOfPlayer = 0;      
 
         }
 

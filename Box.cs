@@ -49,6 +49,7 @@ namespace Janggi
                 this.column = box.getColumn();
                 Piece pieceaux = null;
                 Piece pieceBox = box.getPiece();
+                
 
                 switch (pieceBox)
                 {
@@ -125,7 +126,32 @@ namespace Janggi
 
         }
 
-
+        public void movePiece(Piece piece,List<Piece>bluePieces,List<Piece> redPieces)
+        {
+            Piece oldpiece = this.piece;
+            this.piece = piece;
+            //pt a lua piesa adversarului
+            if (oldpiece != null)
+            {
+                if (oldpiece.getPieceColor() == PieceColor.RED)
+                {
+                    redPieces.Remove(oldpiece);
+                }
+                else
+                {
+                   bluePieces.Remove(oldpiece);
+                }
+             
+            }
+            //pt a sterge imaginea dinn blocul precedent
+            if (this.piece.getBox() != null)
+            {
+                this.piece.getBox().clear();
+            }
+            this.piece.setBox(this);
+            //this.Enabled = true;
+            this.BackgroundImage = piece.getImage();
+        }
         public void movePiece(Piece piece)
         {
             Piece oldpiece = this.piece;
@@ -148,6 +174,11 @@ namespace Janggi
         public void enableMove(bool enable)
         {
             this.Enabled = enable;
+            if (enable == false)
+            {
+                originalColor();
+            }
+
         }
 
         private void hidePossibleChanges()
@@ -160,7 +191,14 @@ namespace Janggi
                 {
                     if (window_form.board[i, j].getMobilePiece() != null)
                     {
+                       
+                           
+                        
                         window_form.board[i, j].originalColor();
+                        window_form.board[i, j].enableMove(false);
+
+
+
                     }
                 }
             }
@@ -180,6 +218,7 @@ namespace Janggi
                 if (this.BackColor == colors[2])
                 {
                     hidePossibleChanges();
+                    this.enableMove(true);
 
                 }
                 else

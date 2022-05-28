@@ -32,8 +32,8 @@ namespace Janggi
             {
                 CreateLabel(90 * i + 35, 910, (Convert.ToChar(97 + i)).ToString(), board_panel);
             }
-            player1 = new Human(PieceColor.BLUE, 1);
-            window_form.players[0] = player1;
+            //player1 = new Human(PieceColor.BLUE, 1);
+            //window_form.players[0] = player1;
 
         }
         private void CreateLabel(int x, int y, string text, Panel board_panel)

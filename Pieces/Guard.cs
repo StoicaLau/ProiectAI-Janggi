@@ -27,6 +27,7 @@ namespace Janggi.Pieces
             }
 
         }
+      
         //se seteaza limita in care se poate misca nebunul 
         public override void setLimit(Box box)
         {
@@ -52,7 +53,7 @@ namespace Janggi.Pieces
             return false;
         }
         //se verifca daca este posibila mutarea pe o casuta
-        public void addEnvoyChange(int line, int column, List<Tuple<int, int>> possibleChange)
+        public void addGuardChange(int line, int column, List<Tuple<int, int>> possibleChange)
         {
             if (verifyLineLimt(line) && verifyColumnLimt(column) && (window_form.board[line, column].getPiece() == null || window_form.board[line, column].getPiece().getPieceColor() != this.pieceColor))// && verify(line, column) == Condition.NONE)
             {            
@@ -60,7 +61,7 @@ namespace Janggi.Pieces
             }
         }
         //Mutari Posibile
-        // lista de mutari posbilie se construieste cu ajutorul metodei  addEnvoyChange(int line,int column, List<Tuple<int, int>>  possibleChanges);
+        // lista de mutari posbilie se construieste cu ajutorul metodei  addGuardChange(int line,int column, List<Tuple<int, int>>  possibleChanges);
         //Pattern :Are o limita de 3 X3 prin care se poate misca ,daca se afla pe centrul limitei sau daca centrul nu este ocupat  se poate plasa oriunde in acea limita,in caz contrar se poate deplasa doar pe orizontal sau vertical
         public override List<Tuple<int, int>> getListOfPossibleChanges()
         {
@@ -70,30 +71,30 @@ namespace Janggi.Pieces
             possibleChanges.Add(new Tuple<int, int>(line, column));
             line = box.getLine() + 1;
             column = box.getColumn();
-            addEnvoyChange(line, column, possibleChanges);
+            addGuardChange(line, column, possibleChanges);
             line = box.getLine() - 1;
             column = box.getColumn();
-            addEnvoyChange(line, column, possibleChanges);
+            addGuardChange(line, column, possibleChanges);
             line = box.getLine();
             column = box.getColumn() + 1;
-            addEnvoyChange(line, column, possibleChanges);
+            addGuardChange(line, column, possibleChanges);
             line = box.getLine();
             column = box.getColumn() - 1;
-            addEnvoyChange(line, column, possibleChanges);
+            addGuardChange(line, column, possibleChanges);
             if (window_form.board[(lineLimit.Item1 + lineLimit.Item2) / 2, (columnLimit.Item1 + columnLimit.Item2) / 2].getPiece() == null || window_form.board[(lineLimit.Item1 + lineLimit.Item2) / 2, (columnLimit.Item1 + columnLimit.Item2) / 2].getPiece() == this || window_form.board[(lineLimit.Item1 + lineLimit.Item2) / 2, (columnLimit.Item1 + columnLimit.Item2) / 2].getPiece().getPieceColor() != this.pieceColor)
             {
                 line = box.getLine() + 1;
                 column = box.getColumn() + 1;
-                addEnvoyChange(line, column, possibleChanges);
+                addGuardChange(line, column, possibleChanges);
                 line = box.getLine() - 1;
                 column = box.getColumn() + 1;
-                addEnvoyChange(line, column, possibleChanges);
+                addGuardChange(line, column, possibleChanges);
                 line = box.getLine() + 1;
                 column = box.getColumn() - 1;
-                addEnvoyChange(line, column, possibleChanges);
+                addGuardChange(line, column, possibleChanges);
                 line = box.getLine() - 1;
                 column = box.getColumn() - 1;
-                addEnvoyChange(line, column, possibleChanges);
+                addGuardChange(line, column, possibleChanges);
 
             }
 
