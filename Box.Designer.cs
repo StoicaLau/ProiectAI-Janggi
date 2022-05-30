@@ -42,7 +42,7 @@ namespace Janggi
             this.Enabled = false;
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "Box";
-            this.Size = new System.Drawing.Size(90, 90);
+            this.Size = new System.Drawing.Size(70, 70);
             this.Load += new System.EventHandler(this.Box_Load);
             this.Click += new System.EventHandler(this.Box_Click);
             this.ResumeLayout(false);

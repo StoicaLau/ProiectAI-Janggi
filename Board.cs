@@ -20,7 +20,7 @@ namespace Janggi
 
             for (int i = 0; i < 10; i++)
             {
-                CreateLabel(830, 90 * i + 40, (10 - i).ToString(), board_panel);
+                CreateLabel(640, 70 * i + 40, (10 - i).ToString(), board_panel);
                 for (int j = 0; j < 9; j++)
                 {
 
@@ -30,7 +30,7 @@ namespace Janggi
             }
             for (int i = 0; i < 9; i++)
             {
-                CreateLabel(90 * i + 35, 910, (Convert.ToChar(97 + i)).ToString(), board_panel);
+                CreateLabel(70 * i + 35, 710, (Convert.ToChar(97 + i)).ToString(), board_panel);
             }
             //player1 = new Human(PieceColor.BLUE, 1);
             //window_form.players[0] = player1;

@@ -207,7 +207,7 @@ namespace Janggi
         private void Box_Load(object sender, EventArgs e)
         {
             this.BackColor = colors[(line + column) % 2];
-            this.Location = new Point(5 + this.Width * column, 5 + 810 - this.Height * line);
+            this.Location = new Point(5 + this.Width * column, 5 + 630 - this.Height * line);
         }
         private void Box_Click(object sender, EventArgs e)
         {
@@ -230,16 +230,20 @@ namespace Janggi
             }
             else
             {
-                if (window_form.playerVsPlayer == true)
-                {
-                    dataToSend = mobilePiece.getLine() + " " + mobilePiece.getColumn() + " " + this.getLine() + " " + this.getColumn();
-                    window_form.streamWriter.WriteLine(dataToSend);
-                }
-
+                //if (window_form.playerVsPlayer == true)
+                //{
+                //    dataToSend = mobilePiece.getLine() + " " + mobilePiece.getColumn() + " " + this.getLine() + " " + this.getColumn();
+                //    window_form.streamWriter.WriteLine(dataToSend);
+                //}
+                int line = mobilePiece.getLine();
+                int column = mobilePiece.getColumn();
+                //window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + " move "  + "(" + (line + 1) + "," + Convert.ToChar(97 + column) + ") to (" + (this.getLine() + 1) + "," + Convert.ToChar(97 + this.getColumn()) + ")");
+                //window_form.notification.Refresh();
+               
                 movePiece(mobilePiece);
                 //Anunt
-                // window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":" +"(" +mobilePiece.getLine()+","+ mobilePiece.getColumn() +")->("+ this.getLine() + "," + this.getColumn() + ")");
-
+                window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + " move" + ":" +"(" +(line+1)+","+Convert.ToChar (97+ column) +") to ("+ (this.getLine()+1) + "," + Convert.ToChar(97 + this.getColumn()) + ")");
+                window_form.notification.Refresh();
                 hidePossibleChanges();
                 originalColor();
                 Enabled = false;
@@ -252,7 +256,7 @@ namespace Janggi
                 if (kingPlayer.verifyCheck() == Condition.CHECK)
                 {
 
-                    // window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":CHECK");
+                     window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":CHECK");
                     window_form.players[window_form.turnOfPlayer].turn(false);
                     kingPlayer.enableMove(false);
                     List<Piece> defensivePiece = kingPlayer.getListOfDefensivePieces(kingPlayer.getLine(), kingPlayer.getColumn());
@@ -267,11 +271,11 @@ namespace Janggi
                 {
                     if (kingPlayer.verifyCheck() == Condition.CHECKMATE)
                     {
-                        //window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":" + "LOSE");
+                        window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":" + "LOSE");
                         window_form.players[window_form.turnOfPlayer].turn(false);
                         window_form.turnOfPlayer = (window_form.turnOfPlayer + 1) % 2;
                         window_form.players[window_form.turnOfPlayer].turn(false);
-                        //window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":" + "WIN");
+                        window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":" + "WIN");
 
                     }
 

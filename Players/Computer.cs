@@ -130,6 +130,8 @@ namespace Janggi.Players
                 bestMove = moves[index];
             }
             numTurns++;
+            window_form.notification.Items.Add("Computer " + " move " +  "(" + (bestMove.Item2.Item1 + 1) + "," + Convert.ToChar(97 + bestMove.Item2.Item2) + ") to (" + (bestMove.Item1.Item1 + 1) + "," + Convert.ToChar(97 + bestMove.Item1.Item2) + ")");
+            window_form.notification.Refresh();
             window_form.board[bestMove.Item1.Item1, bestMove.Item1.Item2].movePiece(window_form.board[bestMove.Item2.Item1, bestMove.Item2.Item2].getPiece());
         }
         public int evaluatePosition(Box[,] board, int alpha, int beta, int depth, PieceColor color, List<Piece> redPieces,List <Piece> bluePieces )
@@ -232,7 +234,7 @@ namespace Janggi.Players
             Piece guard1Blue=null;
             Piece guard2Blue=null;
 
-            for (int i = 0; i < 10; i++)
+            for (int i =0; i < 10; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
@@ -314,7 +316,9 @@ namespace Janggi.Players
             {
                 guard2Blue.setLimit(boardAux[8, 4]);
             }
-
+            
+            
+            
             return boardAux;
         }
         private int evaluate(List<Piece> redPiece, List<Piece> bluePiece)
