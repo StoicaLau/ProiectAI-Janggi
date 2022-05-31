@@ -110,7 +110,7 @@ namespace Janggi.Players
                     redPiece = redPiecesList[i];
                     bluePiece = bluePiecesList[i];
                     int j = evaluatePosition(possibleBoards[i], Int32.MinValue, Int32.MaxValue, DEPTH, PieceColor.BLUE,redPiece,bluePiece);
-                    if (j >= bestMoveScore)
+                    if (j > bestMoveScore)
                     {
                         bestMove = moves[i];
                         bestMoveScore = j;
@@ -173,7 +173,9 @@ namespace Janggi.Players
                         List<Piece> bluePiece = new List<Piece>();
                         Box[,] successorBoard = newBoard(board,redPiece,bluePiece);
                         successorBoard[move.Item1.Item1, move.Item1.Item2].movePiece(successorBoard[move.Item2.Item1, move.Item2.Item2].getPiece(),bluePiece,redPiece);
+                        //int result = evaluatePosition(successorBoard, alpha, beta, depth - 1, PieceColor.RED, redPiece, bluePiece);
                         newBeta = Math.Min(newBeta, evaluatePosition(successorBoard, alpha, beta, depth - 1, PieceColor.RED,redPiece,bluePiece));
+                        
 
                     }
                     if (newBeta <= alpha)
@@ -215,6 +217,8 @@ namespace Janggi.Players
                         Box[,] successorBoard = newBoard(board,redPiece,bluePiece);
                         successorBoard[move.Item1.Item1, move.Item1.Item2].movePiece(successorBoard[move.Item2.Item1, move.Item2.Item2].getPiece(),bluePiece,redPiece);
                         newAlpha = Math.Max(newAlpha, evaluatePosition(successorBoard, alpha, beta, depth - 1, PieceColor.BLUE,redPiece,bluePiece));
+                        //int resultAlpha = evaluatePosition(successorBoard, alpha, beta, depth - 1, PieceColor.BLUE, redPiece, bluePiece);
+                       
 
                     }
                     if (beta <= newAlpha)
