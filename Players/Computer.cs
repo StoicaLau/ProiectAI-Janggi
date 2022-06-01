@@ -23,14 +23,49 @@ namespace Janggi.Players
         }
         public override void turn(bool enable)
         {
+            int ok = 1;
             if (enable == true)
             {
-               
-                makeMove();
+                if (window_form.players[0].getPieces().Count() == 0 && window_form.players[1].getPieces().Count() == 0)
+                {
+                    window_form.notification.Items.Add("DRAW");
+                    window_form.players[0].turn(false);
+                    window_form.players[1].turn(false);
+                    ok = 0;
+                }
+                else
+                {
 
-                window_form.players[window_form.turnOfPlayer].turn(false);
-                window_form.turnOfPlayer = (window_form.turnOfPlayer + 1) % 2;
-                window_form.players[window_form.turnOfPlayer].turn(true);
+                    if (king.verifyCheck() == Condition.CHECK)
+                    {
+
+                        window_form.notification.Items.Add("Computer" + ":CHECK");
+
+
+
+                    }
+                    else
+                    {
+                        if (king.verifyCheck() == Condition.CHECKMATE)
+                        {
+                            window_form.notification.Items.Add("Computer" + ": LOSE");
+
+                            window_form.notification.Items.Add("Player" + ":" + "WIN");
+                            ok = 0;
+
+                        }
+
+                    }
+                }
+                    if (ok == 1)
+                    {
+                        makeMove();
+                        window_form.players[window_form.turnOfPlayer].turn(false);
+                        window_form.turnOfPlayer = (window_form.turnOfPlayer + 1) % 2;
+                        window_form.players[window_form.turnOfPlayer].turn(true);
+                    }
+
+                
 
             }
             else

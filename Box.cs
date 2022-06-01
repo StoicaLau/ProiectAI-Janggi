@@ -49,7 +49,7 @@ namespace Janggi
                 this.column = box.getColumn();
                 Piece pieceaux = null;
                 Piece pieceBox = box.getPiece();
-                
+
 
                 switch (pieceBox)
                 {
@@ -126,7 +126,7 @@ namespace Janggi
 
         }
 
-        public void movePiece(Piece piece,List<Piece>bluePieces,List<Piece> redPieces)
+        public void movePiece(Piece piece, List<Piece> bluePieces, List<Piece> redPieces)
         {
             Piece oldpiece = this.piece;
             this.piece = piece;
@@ -139,9 +139,9 @@ namespace Janggi
                 }
                 else
                 {
-                   bluePieces.Remove(oldpiece);
+                    bluePieces.Remove(oldpiece);
                 }
-             
+
             }
             //pt a sterge imaginea dinn blocul precedent
             if (this.piece.getBox() != null)
@@ -191,9 +191,9 @@ namespace Janggi
                 {
                     if (window_form.board[i, j].getMobilePiece() != null)
                     {
-                       
-                           
-                        
+
+
+
                         window_form.board[i, j].originalColor();
                         window_form.board[i, j].enableMove(false);
 
@@ -232,16 +232,16 @@ namespace Janggi
             {
                 if (window_form.playerVsPlayer == true)
                 {
-                    dataToSend = (9-mobilePiece.getLine()) + " " + (mobilePiece.getColumn()) + " " + (9-this.getLine()) + " " + (this.getColumn())+" ";
+                    dataToSend = (9 - mobilePiece.getLine()) + " " + (mobilePiece.getColumn()) + " " + (9 - this.getLine()) + " " + (this.getColumn()) + " ";
                 }
                 int line = mobilePiece.getLine();
                 int column = mobilePiece.getColumn();
                 //window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + " move "  + "(" + (line + 1) + "," + Convert.ToChar(97 + column) + ") to (" + (this.getLine() + 1) + "," + Convert.ToChar(97 + this.getColumn()) + ")");
                 //window_form.notification.Refresh();
-               
+
                 movePiece(mobilePiece);
                 //Anunt
-                window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + " move" + ":" +"(" +(line+1)+","+Convert.ToChar (97+ column) +") to ("+ (this.getLine()+1) + "," + Convert.ToChar(97 + this.getColumn()) + ")");
+                window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + " move" + ":" + "(" + (line + 1) + "," + Convert.ToChar(97 + column) + ") to (" + (this.getLine() + 1) + "," + Convert.ToChar(97 + this.getColumn()) + ")");
                 window_form.notification.Refresh();
                 hidePossibleChanges();
                 originalColor();
@@ -259,33 +259,42 @@ namespace Janggi
                     window_form.players[window_form.turnOfPlayer].turn(true);
                 }
                 King kingPlayer = window_form.players[window_form.turnOfPlayer].getKing();
-
-                if (kingPlayer.verifyCheck() == Condition.CHECK)
+                if (window_form.players[0].getPieces().Count() == 0 && window_form.players[1].getPieces().Count() == 0)
                 {
-
-                     window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":CHECK");
-                    window_form.players[window_form.turnOfPlayer].turn(false);
-                    kingPlayer.enableMove(false);
-                    List<Piece> defensivePiece = kingPlayer.getListOfDefensivePieces(kingPlayer.getLine(), kingPlayer.getColumn());
-                    foreach (Piece piece in defensivePiece)
-                    {
-                        piece.enableMove(true);
-                    }
-
-
+                    window_form.notification.Items.Add("DRAW");
+                    window_form.players[0].turn(false);
+                    window_form.players[1].turn(false);
                 }
                 else
                 {
-                    if (kingPlayer.verifyCheck() == Condition.CHECKMATE)
+
+                    if (kingPlayer.verifyCheck() == Condition.CHECK)
                     {
-                        window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":" + "LOSE");
+
+                        window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":CHECK");
                         window_form.players[window_form.turnOfPlayer].turn(false);
-                        window_form.turnOfPlayer = (window_form.turnOfPlayer + 1) % 2;
-                        window_form.players[window_form.turnOfPlayer].turn(false);
-                        window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":" + "WIN");
+                        kingPlayer.enableMove(false);
+                        List<Piece> defensivePiece = kingPlayer.getListOfDefensivePieces(kingPlayer.getLine(), kingPlayer.getColumn());
+                        foreach (Piece piece in defensivePiece)
+                        {
+                            piece.enableMove(true);
+                        }
+
 
                     }
+                    else
+                    {
+                        if (kingPlayer.verifyCheck() == Condition.CHECKMATE)
+                        {
+                            window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":" + "LOSE");
+                            window_form.players[window_form.turnOfPlayer].turn(false);
+                            window_form.turnOfPlayer = (window_form.turnOfPlayer + 1) % 2;
+                            window_form.players[window_form.turnOfPlayer].turn(false);
+                            window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + ":" + "WIN");
 
+                        }
+
+                    }
                 }
 
                 //if (kingPlayer.verify(kingPlayer.getBox().getLine(), kingPlayer.getBox().getColumn()) == Condition.CHECK) 
