@@ -20,7 +20,7 @@ namespace Janggi
         private Piece piece;
         private Piece mobilePiece;
         private Panel panel;
-        private String dataToSend;
+        public static String dataToSend="";
 
         //Constructor
         public Box(int line, int column)
@@ -230,11 +230,10 @@ namespace Janggi
             }
             else
             {
-                //if (window_form.playerVsPlayer == true)
-                //{
-                //    dataToSend = mobilePiece.getLine() + " " + mobilePiece.getColumn() + " " + this.getLine() + " " + this.getColumn();
-                //    window_form.streamWriter.WriteLine(dataToSend);
-                //}
+                if (window_form.playerVsPlayer == true)
+                {
+                    dataToSend = mobilePiece.getLine() + " " + mobilePiece.getColumn() + " " + this.getLine() + " " + this.getColumn();
+                }
                 int line = mobilePiece.getLine();
                 int column = mobilePiece.getColumn();
                 //window_form.notification.Items.Add("Player" + (window_form.turnOfPlayer + 1) + " move "  + "(" + (line + 1) + "," + Convert.ToChar(97 + column) + ") to (" + (this.getLine() + 1) + "," + Convert.ToChar(97 + this.getColumn()) + ")");

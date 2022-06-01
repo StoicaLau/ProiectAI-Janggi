@@ -1,9 +1,11 @@
 ﻿using Janggi.Pieces;
 using Janggi.Players;
+using SimpleTCP;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -124,16 +126,6 @@ namespace Janggi
 
         private void create_Click(object sender, EventArgs e)
         {
-            Player playeraux = new Human(PieceColor.BLUE, 1);
-            window_form.players[0] = playeraux;
-            window_form.players[0].placeThePieces();
-           
-            playeraux = new Human(PieceColor.RED, -1);
-            window_form.players[1] = playeraux;
-            window_form.players[1].placeThePieces();
-            window_form.players[1].turn(false);
-            window_form.players[0].turn(true);
-
             back1.Visible = false;
             connect.Visible = false;
             create.Visible = false;
@@ -163,6 +155,9 @@ namespace Janggi
             window_form.players[1].placeThePieces();
             window_form.players[1].turn(false);
             window_form.players[0].turn(true);
+
+            window_form.isClient = true;
+            Close();
         }
         //pt create server
         private void createserv_Click(object sender, EventArgs e)
@@ -176,6 +171,9 @@ namespace Janggi
             window_form.players[1].placeThePieces();
             window_form.players[1].turn(false);
             window_form.players[0].turn(true);
+
+            window_form.isServer = true;
+            Close();
         }
 
         private void back2_Click(object sender, EventArgs e)

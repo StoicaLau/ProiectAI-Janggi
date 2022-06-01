@@ -69,6 +69,7 @@
             this.send.TabIndex = 2;
             this.send.Text = "Send";
             this.send.UseVisualStyleBackColor = false;
+            this.send.Click += new System.EventHandler(this.send_Click);
             // 
             // window_form
             // 
@@ -92,8 +93,8 @@
 
         private System.Windows.Forms.Panel board_panel;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        public static System.Windows.Forms.ListBox notification;
         private System.Windows.Forms.Button send;
+        public static System.Windows.Forms.ListBox notification;
     }
 }
 

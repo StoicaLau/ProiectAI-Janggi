@@ -154,6 +154,7 @@
             this.ip.Name = "ip";
             this.ip.Size = new System.Drawing.Size(190, 31);
             this.ip.TabIndex = 7;
+            this.ip.Text = "127.0.0.1";
             this.ip.Visible = false;
             // 
             // port
@@ -165,6 +166,7 @@
             this.port.Name = "port";
             this.port.Size = new System.Drawing.Size(190, 31);
             this.port.TabIndex = 8;
+            this.port.Text = "8000";
             this.port.Visible = false;
             // 
             // porttext
@@ -259,7 +261,6 @@
             this.Controls.Add(this.player1);
             this.Name = "Menu";
             this.Text = "Menu";
-           
             this.Load += new System.EventHandler(this.Menu_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -276,8 +277,8 @@
         private System.Windows.Forms.Button back1;
         private System.Windows.Forms.Button connect;
         private System.Windows.Forms.Button create;
-        private System.Windows.Forms.TextBox ip;
-        private System.Windows.Forms.TextBox port;
+        public System.Windows.Forms.TextBox ip;
+        public System.Windows.Forms.TextBox port;
         private System.Windows.Forms.Label porttext;
         private System.Windows.Forms.Label iptext;
         private System.Windows.Forms.Button createserv;
