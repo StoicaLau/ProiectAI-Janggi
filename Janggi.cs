@@ -32,6 +32,7 @@ namespace Janggi
         public static Boolean playerVsPlayer;
         public static int[] pozitieInitiala = new int[2];
         public static int[] pozitieFinala = new int[2];
+      
         public window_form()
         {
             InitializeComponent();
@@ -83,7 +84,7 @@ namespace Janggi
             pozitieInitiala[0] = Convert.ToInt32(coordonate[0]);
             pozitieInitiala[1] = Convert.ToInt32(coordonate[1]);
             pozitieFinala[0] = Convert.ToInt32(coordonate[2]);
-            pozitieInitiala[1] = Convert.ToInt32(coordonate[3]);
+            pozitieFinala[1] = Convert.ToInt32(coordonate[3]);
             Piece temp = window_form.board[pozitieInitiala[0], pozitieInitiala[1]].getPiece();
             board[pozitieFinala[0], pozitieFinala[1]].movePiece(temp);
             Box.dataToSend = "";
