@@ -30,6 +30,8 @@ namespace Janggi
         public static bool isServer = false;
         public static bool isClient = false;
         public static Boolean playerVsPlayer;
+        public static int[] pozitieInitiala = new int[2];
+        public static int[] pozitieFinala = new int[2];
         public window_form()
         {
             InitializeComponent();
@@ -46,18 +48,19 @@ namespace Janggi
             }
             if (isServer == true)
             {
+                turnOfPlayer = 0;
                 server = new SimpleTcpServer();
                 server.Delimiter = 0x13; //enter
                 server.StringEncoder = Encoding.UTF8;
                 System.Net.IPAddress address = System.Net.IPAddress.Parse(menu.ip.Text);
                 server.Start(address, Convert.ToInt32(menu.port.Text));
-                Console.WriteLine("Server waiting");
                 server.DataReceived += Server_DataReceived;
-                notification.Text = "TEST";
             }
             else if (isClient == true)
             {
+                turnOfPlayer = 1;
                 window_form.client = new SimpleTcpClient();
+                client.Delimiter = 0x13; //enter
                 window_form.client.StringEncoder = Encoding.UTF8;
                 window_form.client.Connect(menu.ip.Text, Convert.ToInt32(menu.port.Text));
                 Console.WriteLine("Conected");
@@ -69,24 +72,38 @@ namespace Janggi
 
         private void Janggi_Load(object sender, EventArgs e)
         {
-            turnOfPlayer = 0;
         }
 
         private void Client_DataReceived(object sender, SimpleTCP.Message e)
         {
-            notification.Invoke((MethodInvoker)delegate ()
-            {
-                notification.Text += e.MessageString;
-            });
+            string data;
+            data = e.MessageString;
+            string[] coordonate = data.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            //primele 2 coordonate = inceput ,urmatoarele = sfarsit
+            pozitieInitiala[0] = Convert.ToInt32(coordonate[0]);
+            pozitieInitiala[1] = Convert.ToInt32(coordonate[1]);
+            pozitieFinala[0] = Convert.ToInt32(coordonate[2]);
+            pozitieInitiala[1] = Convert.ToInt32(coordonate[3]);
+            Piece temp = window_form.board[pozitieInitiala[0], pozitieInitiala[1]].getPiece();
+            board[pozitieFinala[0], pozitieFinala[1]].movePiece(temp);
+            Box.dataToSend = "";
         }
 
         private void Server_DataReceived(object sender, SimpleTCP.Message e)
         {
-            notification.Invoke((MethodInvoker)delegate ()
-            {
-                notification.Text += e.MessageString;
-                e.ReplyLine(string.Format("Am primit mesajul", e.MessageString));
-            });
+            string data;
+            data = e.MessageString;
+            string[] coordonate = data.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            //primele 2 coordonate = inceput ,urmatoarele = sfarsit
+            int[] pozitieInitiala = new int[2];
+            int[] pozitieFinala = new int[2];
+            pozitieInitiala[0] = Convert.ToInt32(coordonate[0]);
+            pozitieInitiala[1] = Convert.ToInt32(coordonate[1]);
+            pozitieFinala[0] = Convert.ToInt32(coordonate[2]);
+            pozitieFinala[1] = Convert.ToInt32(coordonate[3]);
+            Piece temp = window_form.board[pozitieInitiala[0], pozitieInitiala[1]].getPiece();
+            board[pozitieFinala[0], pozitieFinala[1]].movePiece(temp);
+            Box.dataToSend = "";
         }
 
         private void board_panel_Paint(object sender, PaintEventArgs e)
@@ -118,11 +135,11 @@ namespace Janggi
         {
             if (isServer == true)
             {
-                server.BroadcastLine("test");
+                server.BroadcastLine(Box.dataToSend);
             }
             else if (isClient == true)
             {
-                client.WriteLineAndGetReply("test",TimeSpan.FromSeconds(3));
+                client.WriteLineAndGetReply(Box.dataToSend, TimeSpan.FromSeconds(1));
             }
         }
 

@@ -52,7 +52,7 @@ namespace Janggi
 
         private void player2_Click(object sender, EventArgs e)
         {
-           
+            window_form.playerVsPlayer = true;
             player1.Visible = false;
             player2.Visible = false;
             exit.Visible = false;

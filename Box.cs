@@ -20,7 +20,7 @@ namespace Janggi
         private Piece piece;
         private Piece mobilePiece;
         private Panel panel;
-        public static String dataToSend="";
+        public static String dataToSend;
 
         //Constructor
         public Box(int line, int column)
@@ -232,7 +232,7 @@ namespace Janggi
             {
                 if (window_form.playerVsPlayer == true)
                 {
-                    dataToSend = mobilePiece.getLine() + " " + mobilePiece.getColumn() + " " + this.getLine() + " " + this.getColumn();
+                    dataToSend = (9-mobilePiece.getLine()) + " " + (mobilePiece.getColumn()) + " " + (9-this.getLine()) + " " + (this.getColumn())+" ";
                 }
                 int line = mobilePiece.getLine();
                 int column = mobilePiece.getColumn();
@@ -247,9 +247,17 @@ namespace Janggi
                 originalColor();
                 Enabled = false;
 
-                window_form.players[window_form.turnOfPlayer].turn(false);
-                window_form.turnOfPlayer = (window_form.turnOfPlayer + 1) % 2;
-                window_form.players[window_form.turnOfPlayer].turn(true);
+                if (window_form.playerVsPlayer == true)
+                {
+                    window_form.players[0].turn(true);
+                    window_form.players[1].turn(false);
+                }
+                else
+                {
+                    window_form.players[window_form.turnOfPlayer].turn(false);
+                    window_form.turnOfPlayer = (window_form.turnOfPlayer + 1) % 2;
+                    window_form.players[window_form.turnOfPlayer].turn(true);
+                }
                 King kingPlayer = window_form.players[window_form.turnOfPlayer].getKing();
 
                 if (kingPlayer.verifyCheck() == Condition.CHECK)
